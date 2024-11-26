@@ -97,32 +97,47 @@ A Wild card substitutes for any other card and has a face value of 0 points.
 You may “recycle” a Wild card in play prior to your turn by exchanging it with a card from your hand that fits any line(s) it may be a part of.
 You may then replay it on any turn. You do not have to name a Wild card when you play it. However, it must represent the same card if part of two lines.
 
-## Examples of Lots
+## Examples of Lot rules
 
 ![example-lots](example-lots.png)
+
+### 1
+
 Same color on each card.
 Different shapes on each card.
 Same number on each card.
+
+### 2
 
 Same color on each card.
 Same shape on each card.
 Different numbers on each card.
 
+### 3
+
 Same color on each card.
 Different shapes on each card.
 Different numbers on each card.
 
+### 4
+
 Different colors on each card.
 Same shape on each card.
 Same number on each card.
+
+### 5
 
 Different colors on each card.
 Different shapes on each card.
 Same number on each card.
 
+### 6
+
 Different colors on each card.
 Same shape on each card.
 Different numbers on each card.
+
+### 7
 
 Different colors on each card.
 Different shapes on each card.
