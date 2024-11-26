@@ -1,22 +1,16 @@
 module Config
-  def default_colors
-    [:red, :green, :blue, :yellow]
-  end
-  def default_shapes
-    [:square, :triangle, :circle, :cross]
-  end
-  def default_numbers
-    [1, 2, 3, 4]
-    end
+  DEFAULT_COLORS = [:red, :green, :blue, :yellow]
+  DEFAULT_SHAPES = [:square, :triangle, :circle, :cross]
+  DEFAULT_NUMBERS = [1, 2, 3, 4]
+  DEFAULT_WILD_CARDS = 2
 end
 
 class Game
-  attr_accessor :players, :board, :current_player, :moves
-  def initialize(colors = Config.default_colors, shapes = Config.default_shapes, numbers = Config.default_numbers)
-    @players = []
+  attr_accessor :players, :board, :current_player
+  def initialize(colors = Config::DEFAULT_COLORS, shapes = Config::DEFAULT_SHAPES, numbers = Config::DEFAULT_NUMBERS, players = [])
+    @players = players
     @board = Board.new
     @current_player = nil
-    @moves = []
     @cards = create_cards(colors, shapes, numbers)
   end
 
@@ -29,6 +23,11 @@ class Game
         end
       end
     end  
+    # Add wild cards
+    DEFAULT_WILD_CARDS.times do
+      cards << Card.new(:any, :any, 0, true)
+    end
+
     5.times do
       cards.shuffle!
     end
@@ -50,7 +49,9 @@ class Game
     @players.each do |player|
       draw_cards(player)
     end
-    @board[0, 0] = {player_id: nil, card: @cards.pop}
+    first_card = @cards.pop
+    puts "First card: #{first_card}"
+    @board.add_card(0, 0, first_card, nil)
 
   end
 
@@ -61,11 +62,10 @@ class Game
   end
 
   def play_card(player, move)
-    @board[move.row, move.column] = {player_id: player.id, card: move.card}
+    # @board[move.row, move.column] = {player_id: player.id, card: move.card}
+    @board.add_card(move.row, move.column, move.card, player.id)
     # TODO: validate move
     # if error remove card from board
-
-
   end
 end
 
@@ -93,10 +93,17 @@ class Card
   end
 end
 
+# Board: Dictionary of rows and columns with cards and who played them
 class Board
-  attr_accessor :board
+  attr_accessor :board, :moves
   def initialize
-      @board = {}
+    @board = {}
+    @moves = []
+  end
+
+  def add_card(row, column, card, player_id)
+    @board[row] ||= {}
+    @board[row][column] = {player_id: player_id, card: card}
   end
 
   def validate_board
@@ -115,4 +122,16 @@ class Player
       @score = 0
       @hand = []
   end
+
+  def to_s
+      "#{@name}: #{@score}, cards: #{@hand}"
+  end
 end
+
+g = Game.new
+g.add_player("Player 1")
+g.add_player("Player 2")
+
+g.start_game()
+
+puts g.players
