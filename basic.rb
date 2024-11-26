@@ -93,6 +93,35 @@ class Card
   end
 end
 
+# a row or column of connected cards
+class Lot
+  attr_accessor :same_color, :same_shape, :same_number
+  def initialize(cards = [])
+    @cards = cards
+    set_rules(cards)
+  end
+
+  def set_rules(cards)
+    @same_color = cards.every? do |card|
+      card.color == cards.first.color
+    end
+    @same_shape = cards.every? do |card|
+      card.shape == cards.first.shape
+    end
+    @same_number = cards.every? do |card|
+      card.number == cards.first.number
+    end
+  end
+
+  def to_s
+    @cards
+  end
+
+
+  
+
+end
+
 # Board: Dictionary of rows and columns with cards and who played them
 class Board
   attr_accessor :board, :moves
@@ -106,12 +135,16 @@ class Board
     @board[row][column] = {player_id: player_id, card: card}
   end
 
+  # Each row and column of connected cards must be validated based on the combination of cards
   def validate_board
-    # TODO
+    # First split the board into rows and columns of connected cards (called a "lot")
+    
+    # Then validate each row and column
   end
 
-  def validate_move(move)
-    # TODO
+  # Validates a row of connected cards
+  def validate_cards(cards)
+    # First get the rules for each card
   end
 end
 
